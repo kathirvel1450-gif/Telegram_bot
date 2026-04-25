@@ -5,7 +5,9 @@ from pydantic import BaseModel
 from bot import send_telegram_message
 
 app = FastAPI()
-
+@app.get("/")
+def root():
+    return {"message": "✅ Backend is running successfully"}
 # Enable CORS for the frontend
 app.add_middleware(
     CORSMiddleware,
