@@ -31,7 +31,7 @@ const FeedbackForm = () => {
     setStatus('loading');
     
     try {
-      const response = await fetch('/feedback', {
+      const response = await fetch('https://telegram-bot-9y9e.onrender.com/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

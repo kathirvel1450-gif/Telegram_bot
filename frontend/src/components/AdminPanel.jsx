@@ -8,7 +8,7 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await fetch('/api/feedbacks');
+        const response = await fetch('https://telegram-bot-9y9e.onrender.com/api/feedbacks');
         if (!response.ok) throw new Error('Failed to fetch data');
         const data = await response.json();
         setFeedbacks(data.feedbacks);
