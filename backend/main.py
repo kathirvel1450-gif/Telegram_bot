@@ -2,12 +2,10 @@ import sqlite3
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from fastapi.staticfiles import StaticFiles
 from bot import send_telegram_message
 
 app = FastAPI()
-@app.get("/")
-def root():
-    return {"message": "✅ Backend is running successfully"}
 # Enable CORS for the frontend
 app.add_middleware(
     CORSMiddleware,
@@ -62,3 +60,24 @@ def submit_feedback(feedback: Feedback):
     except Exception as e:
         print(f"Error processing feedback: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
+
+@app.get("/api/feedbacks")
+def get_feedbacks():
+    try:
+        conn = sqlite3.connect("database.sqlite")
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name, email, rating, experience FROM feedbacks ORDER BY id DESC")
+        rows = cursor.fetchall()
+        conn.close()
+
+        feedbacks = [
+            {"id": row[0], "name": row[1], "email": row[2], "rating": row[3], "experience": row[4], "timestamp": "N/A"}
+            for row in rows
+        ]
+        return {"feedbacks": feedbacks}
+    except Exception as e:
+        print(f"Error fetching feedbacks: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+# Mount the static files directory to serve the frontend
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
