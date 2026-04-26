@@ -31,7 +31,7 @@ const FeedbackForm = () => {
     setStatus('loading');
     
     try {
-      const response = await fetch('http://localhost:8000/feedback', {
+      const response = await fetch('/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

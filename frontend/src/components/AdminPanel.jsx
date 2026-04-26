@@ -8,7 +8,7 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/feedbacks');
+        const response = await fetch('/api/feedbacks');
         if (!response.ok) throw new Error('Failed to fetch data');
         const data = await response.json();
         setFeedbacks(data.feedbacks);
